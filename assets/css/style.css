@@ -1,0 +1,16 @@
+p {
+  color: black;
+  font-family: "montserrat";
+}
+
+span {
+  font-weight: bold;
+}
+
+.name {
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+/*# sourceMappingURL=style.css.map */

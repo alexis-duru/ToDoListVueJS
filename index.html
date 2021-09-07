@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=3">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>ToDo VueJS</title>
+</head>
+
+<body>
+    <div id='app'>
+        <h1>Todo List en VueJS</h1>
+
+        <!-- <input type="text" v-model="message"/>
+        <a href="#" @click="ajouterNote" v-if=" message != '' ">Ajouter</a> -->
+
+        <ajout @nouvellenote="ajouterNote"></ajout>
+        
+        <note v-for="todo in todos" v-bind:content="todo" content="Mon nouveau contenu" @click="inverser"></note>
+    </div>
+
+    <script>
+        const vm = Vue.createApp({
+            data(){
+                return {
+                    todos: ["faire du skateboard", "finir le projet", "développer une nouvelle application"]
+                }
+            },
+            methods:{
+                inverser(){
+                    this.todos.reverse();
+                },
+                ajouterNote(message){
+                    this.todos.push(message);
+                }
+            }
+        })
+ 
+        vm.component('note', {
+            props: ['content'],
+            template: `<p> {{ content }} </p>` 
+        });
+
+        vm.component('ajout', {
+            props: [],
+            emits: ['nouvellenote'],
+            data(){
+                return{
+                    interne: 'Nouveau message'
+                }
+            },
+            methods:{
+                enregistrementNote(){
+                    this.$emit('nouvellenote', this.interne)
+                }
+            },
+            template: `
+                <input type="text" v-model="interne"/>
+                <a href="#" @click="enregistrementNote" v-if=" interne != '' ">Ajouter</a>
+                {{ interne }}
+            `
+        })
+        
+        vm.mount('#app');
+            
+    </script>
+</body>
+</html>
